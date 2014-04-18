@@ -64,7 +64,7 @@ void call_back(evutil_socket_t fd, short event_id, void * pdata)
 									 if (stlogin.head.data_len > 0)
 									 {
 										 pb_loginsvr::Login pblogin;
-										 pblogin.ParseFromArray(data, stlogin.head.data_len);
+										 pblogin.ParseFromArray(stlogin.body.data, stlogin.head.data_len);
 									 }
 
 									 break;
