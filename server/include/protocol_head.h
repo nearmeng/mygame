@@ -1,9 +1,12 @@
 #ifndef __PROTOCOL_HEAD__
 #define __PROTOCOL_HEAD__
+
+#include <stdint.h>
+
 struct stProtocolHead
 {
-	uint8 cmd_id;
-	uint8 data_len;
+	uint8_t cmd_id;
+	uint8_t data_len;
 	stProtocolHead()
 	{
 		cmd_id = 0;
