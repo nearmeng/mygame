@@ -1,0 +1,7 @@
+package pb_loginsvr;
+
+message Login
+{
+required string name = 1;
+required string passwd = 2;
+}
