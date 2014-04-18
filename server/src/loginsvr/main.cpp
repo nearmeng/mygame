@@ -53,22 +53,18 @@ void call_back(evutil_socket_t fd, short event_id, void * pdata)
 	{
 	case EV_READ:
 	{
-					stProtocolHead stHead;
-					recv(fd, &stHead, sizeof(stHead), 0);
-					stHead.decode();
+					stLogin stlogin;
+					recv(fd, &stlogin, sizeof(stlogin), 0);
+					stlogin.head.decode();
 
-					switch (stHead.cmd_id)
+					switch (stlogin.head.cmd_id)
 					{
 					case LG_login:
 					{
-									 if (stHead.data_len > 0)
+									 if (stlogin.head.data_len > 0)
 									 {
-										 char* data = new char[stHead.data_len];
-										 recv(fd, data, stHead.data_len, 0);
-										 pb_loginsvr::Login login;
-										 login.ParseFromArray(data, stHead.data_len);
-
-										 delete[] data;
+										 pb_loginsvr::Login pblogin;
+										 pblogin.ParseFromArray(data, stlogin.head.data_len);
 									 }
 
 									 break;

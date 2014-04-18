@@ -26,6 +26,22 @@ struct stProtocolHead
 	}
 };
 
+struct stProtocolBody
+{
+	char data[256];
+
+	stProtocolBody()
+	{
+		memset(data, 0, sizeof(data));
+	}
+};
+
+struct stLogin
+{
+	stProtocolHead head;
+	stProtocolBody body;
+};
+
 enum emLoginsvrCmdID
 {
 	LG_login = 1,
