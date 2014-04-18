@@ -32,7 +32,7 @@ int main(int argc, char** argv)
 
 	bind(fd, reinterpret_cast<sockaddr*>(&sock_addr), sizeof(sock_addr));
 
-	char* test_new = "new data";
+	char test_new[32] = "new data";
 
 	event* pevent = event_new(pbase, fd, EV_READ | EV_PERSIST, call_back, reinterpret_cast<void*>(test_new));
 	event_base_set(pbase, pevent);
@@ -70,7 +70,7 @@ void call_back(evutil_socket_t fd, short event_id, void * pdata)
 
 										 delete[] data;
 									 }
-									 
+
 									 break;
 					}
 					default:
