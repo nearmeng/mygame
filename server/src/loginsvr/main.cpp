@@ -3,6 +3,8 @@
 #include <string.h>
 #include <iostream>
 #include <glog/logging.h>
+#include "include/protocol_head.h"
+#include "proto/loginsvr.pb.h"
 
 using namespace std;
 
@@ -27,10 +29,12 @@ int main(int argc, char** argv)
 	sock_addr.sin_port = htons(4999);
 	sock_addr.sin_addr.s_addr = INADDR_ANY;
 	//evutil_inet_pton(AF_INET, "127.0.0.1", &sock_addr.sin_addr);
-	
+
 	bind(fd, reinterpret_cast<sockaddr*>(&sock_addr), sizeof(sock_addr));
 
-	event* pevent = event_new(pbase, fd, EV_READ | EV_PERSIST, call_back, NULL);
+	char* test_new = "new data";
+
+	event* pevent = event_new(pbase, fd, EV_READ | EV_PERSIST, call_back, reinterpret_cast<void*>(test_new));
 	event_base_set(pbase, pevent);
 	event_add(pevent, NULL);
 	event_base_dispatch(pbase);
@@ -44,7 +48,39 @@ int main(int argc, char** argv)
 
 void call_back(evutil_socket_t fd, short event_id, void * pdata)
 {
-	LOG(INFO) << fd << "|" << event_id;
+	LOG(INFO) << fd << "|" << event_id << reinterpret_cast<char*>(pdata);
+	switch (event_id)
+	{
+	case EV_READ:
+	{
+					stProtocolHead stHead;
+					recv(fd, &stHead, sizeof(stHead), 0);
+					stHead.decode();
+
+					switch (stHead.cmd_id)
+					{
+					case LG_login:
+					{
+									 if (stHead.data_len > 0)
+									 {
+										 char* data = new char[stHead.data_len];
+										 recv(fd, data, stHead.data_len, 0);
+										 pb_loginsvr::Login login;
+										 login.ParseFromArray(data, stHead.data_len);
+
+										 delete[] data;
+									 }
+									 
+									 break;
+					}
+					default:
+						break;
+					}
+					break;
+	}
+	default:
+		break;
+	}
 }
 
 void glog_init(const char* argv0)
