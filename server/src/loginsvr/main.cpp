@@ -100,10 +100,9 @@ int check_passwd(const pb_loginsvr::Login& pblogin)
 	{
 		CRedisReply reply;
 		CRedisConnetUint* redisuint = redismgr.GetDb(0);
-		char sztmp[256];
-		const string& tmpname = pblogin.name();
-		snprintf(sztmp, sizeof(sztmp), "GET %s", tmpname.c_str());
-		redisuint->RedisSendCmd(sztmp, reply);
+		stringstream ss;
+		ss << "GET " << pblogin.name();
+		redisuint->RedisSendCmd(ss.str().c_str(), reply);
 		switch (reply.GetRedisReply()->integer)
 		{
 		case REDIS_REPLY_NIL:
@@ -111,8 +110,9 @@ int check_passwd(const pb_loginsvr::Login& pblogin)
 			break;
 		case REDIS_REPLY_STRING:
 		{
-								   snprintf(sztmp, sizeof(sztmp), "%s|%"PRIu64"", reply.GetRedisReply()->str, pblogin.timestamp());
-								   string md5 = calc_md5_string(reinterpret_cast<unsigned char*>(sztmp), strlen(sztmp));
+								   ss.str().clear();
+								   ss << reply.GetRedisReply()->str << pblogin.timestamp();
+								   string md5 = calc_md5_string(ss.str().c_str(), ss.str().length());
 								   const string& tmp = pblogin.passwd();
 								   if (strncasecmp(md5.c_str(), tmp.c_str(), md5.length() > tmp.length() ? tmp.length() : md5.length()) == 0)
 								   {
