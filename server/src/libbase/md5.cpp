@@ -1,5 +1,6 @@
 #include "md5.h"
 #include <string.h>
+#include <stdio.h>
 
 struct MD5Context {
 	uint32_t buf[4];
