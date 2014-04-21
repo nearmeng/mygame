@@ -53,7 +53,7 @@ enum emLoginsvrErrorID
 	LG_login_suc = 0,
 	LG_user_no_register = 1,
 	LG_passwd_err = 2,
-	LG_errorID_max
+	LG_errorid_max
 };
 
 #endif
