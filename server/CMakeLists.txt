@@ -9,5 +9,6 @@ execute_process(COMMAND protoc --proto_path=${SRC_ROOT}/proto ${SRC_ROOT}/proto/
 include_directories(${SRC_ROOT})
 add_definitions(-Wall -Werror)
 add_subdirectory(${SRC_ROOT}/proto)
+add_subdirectory(${SRC_ROOT}/src/libbase)
 add_subdirectory(${SRC_ROOT}/src/libredis)
 add_subdirectory(${SRC_ROOT}/src/loginsvr)
