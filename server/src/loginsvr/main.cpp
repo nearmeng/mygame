@@ -14,6 +14,8 @@ using namespace std;
 
 void call_back(evutil_socket_t, short, void *);
 void glog_init(const char* argv0);
+int check_passwd(const pb_loginsvr::Login& pblogin);
+
 
 int main(int argc, char** argv)
 {
@@ -68,41 +70,7 @@ void call_back(evutil_socket_t fd, short event_id, void * pdata)
 									 {
 										 pb_loginsvr::Login pblogin;
 										 pblogin.ParseFromArray(stlogin.body.data, stlogin.head.data_len);
-
-										 static CRedisMgr redismgr;
-										 if (redismgr.InitDb("127.0.0.1", 6379, 1))
-										 {
-											 CRedisReply reply;
-											 CRedisConnetUint* redisuint = redismgr.GetDb(0);
-											 char sztmp[256];
-											 snprintf(sztmp, sizeof(sztmp), "GET %s", pblogin.name());
-											 redisuint->RedisSendCmd(sztmp, reply);
-											 switch (reply.GetRedisReply()->integer)
-											 {
-											 case REDIS_REPLY_NIL:
-												 return LG_user_no_register;
-												 break;
-											 case REDIS_REPLY_STRING:
-											 {
-																		snprintf(sztmp, sizeof(sztmp), "%s|%ld", reply.GetRedisReply()->str, pblogin.timestamp());
-																		string md5 = calc_md5_string(reinterpret_cast<unsigned char*>(sztmp), strlen(sztmp));
-																		const string& tmp = pblogin.passwd();
-																		if (strncasecmp(md5.c_str(), tmp.c_str()) == 0)
-																		{
-																			return LG_login_suc;
-																		}
-																		else
-																		{
-																			return LG_passwd_err;
-																		}
-											 }
-												 break;
-											 default:
-												 break;
-											 }
-
-										 }
-
+										 LOG(INFO) << check_passwd(pblogin);
 									 }
 					}
 						break;
@@ -123,4 +91,43 @@ void glog_init(const char* argv0)
 	FLAGS_stop_logging_if_full_disk = 1; //磁盘没空间了停止写log
 	FLAGS_logbufsecs = 0;//有log就会写道磁盘上面，不做缓存
 	google::InitGoogleLogging(argv0);
+}
+
+int check_passwd(const pb_loginsvr::Login& pblogin)
+{
+	static CRedisMgr redismgr;
+	if (redismgr.InitDb("127.0.0.1", 6379, 1))
+	{
+		CRedisReply reply;
+		CRedisConnetUint* redisuint = redismgr.GetDb(0);
+		char sztmp[256];
+		const string& tmpname = pblogin.name();
+		snprintf(sztmp, sizeof(sztmp), "GET %s", tmpname.c_str());
+		redisuint->RedisSendCmd(sztmp, reply);
+		switch (reply.GetRedisReply()->integer)
+		{
+		case REDIS_REPLY_NIL:
+			return LG_user_no_register;
+			break;
+		case REDIS_REPLY_STRING:
+		{
+								   snprintf(sztmp, sizeof(sztmp), "%s|%"PRIu64"", reply.GetRedisReply()->str, pblogin.timestamp());
+								   string md5 = calc_md5_string(reinterpret_cast<unsigned char*>(sztmp), strlen(sztmp));
+								   const string& tmp = pblogin.passwd();
+								   if (strncasecmp(md5.c_str(), tmp.c_str(), md5.length() > tmp.length() ? tmp.length() : md5.length()) == 0)
+								   {
+									   return LG_login_suc;
+								   }
+								   else
+								   {
+									   return LG_passwd_err;
+								   }
+		}
+			break;
+		default:
+			break;
+		}
+	}
+
+	return LG_errorID_max;
 }
