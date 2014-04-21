@@ -1,6 +1,10 @@
 #ifndef __SAFE_LOCK_MD5_H__
 #define __SAFE_LOCK_MD5_H__
 
+#include <string>
+
+using namespace std;
+
 #define  __alpha
 
 #ifdef __alpha
