@@ -112,7 +112,7 @@ int check_passwd(const pb_loginsvr::Login& pblogin)
 		{
 								   ss.str().clear();
 								   ss << reply.GetRedisReply()->str << pblogin.timestamp();
-								   unsigned char* ptmp = static_cast<unsigned char*>(const_cast<char*>(ss.str().c_str()));
+								   unsigned char* ptmp = reinterpret_cast<unsigned char*>(const_cast<char*>(ss.str().c_str()));
 								   string md5 = calc_md5_string(ptmp, ss.str().length());
 								   const string& tmp = pblogin.passwd();
 								   if (strncasecmp(md5.c_str(), tmp.c_str(), md5.length() > tmp.length() ? tmp.length() : md5.length()) == 0)
