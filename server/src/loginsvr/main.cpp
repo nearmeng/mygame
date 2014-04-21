@@ -74,14 +74,14 @@ void call_back(evutil_socket_t fd, short event_id, void * pdata)
 										 pb_loginsvr::Login pblogin;
 										 pblogin.ParseFromArray(stlogin.body.data, stlogin.head.data_len);
 										 pb_loginsvr::LoginReuslt pbloginresult;
-										 pbloginresult.set_result(check_passwd());
+										 pbloginresult.set_result(check_passwd(pblogin));
 										 stlogin.head.cmd_id = LG_login_result;
 										 string tmp;
 										 pbloginresult.SerializeToString(&tmp);
 										 stlogin.head.data_len = tmp.length();
 										 memcpy(stlogin.body.data, tmp.c_str(), tmp.length());
 										 stlogin.head.encode();
-										 sendto(fd, &stlogin, sizeof(stlogin), 0, &add, len);
+										 sendto(fd, &stlogin, sizeof(stlogin), 0, &addr, len);
 									 }
 					}
 						break;
