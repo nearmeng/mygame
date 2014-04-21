@@ -6,3 +6,9 @@ required string name = 1;
 required string passwd = 2;
 required uint64 timestamp = 3;
 }
+
+message Reuslt
+{
+required uint32 result = 1;
+required string msg = 2;
+}
