@@ -1,5 +1,4 @@
-#include "safelock_predifine.h"
-#include "safelock_md5.h"
+#include "md5.h"
 #include <string.h>
 
 struct MD5Context {
