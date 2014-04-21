@@ -7,7 +7,7 @@ required string passwd = 2;
 required uint64 timestamp = 3;
 }
 
-message Reuslt
+message LoginReuslt
 {
 required uint32 result = 1;
 required string msg = 2;

@@ -45,6 +45,7 @@ struct stLogin
 enum emLoginsvrCmdID
 {
 	LG_login = 1,
+	LG_login_result = 2,
 };
 
 enum emLoginsvrErrorID

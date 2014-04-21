@@ -58,8 +58,11 @@ void call_back(evutil_socket_t fd, short event_id, void * pdata)
 	{
 	case EV_READ:
 	{
+					sockaddr addr;
+					socklen_t len = sizeof(addr);
+
 					stLogin stlogin;
-					recv(fd, &stlogin, sizeof(stlogin), 0);
+					recvfrom(fd, &stlogin, sizeof(stlogin), 0, &addr, &len);
 					stlogin.head.decode();
 
 					switch (stlogin.head.cmd_id)
@@ -70,7 +73,15 @@ void call_back(evutil_socket_t fd, short event_id, void * pdata)
 									 {
 										 pb_loginsvr::Login pblogin;
 										 pblogin.ParseFromArray(stlogin.body.data, stlogin.head.data_len);
-										 LOG(INFO) << check_passwd(pblogin);
+										 pb_loginsvr::LoginReuslt pbloginresult;
+										 pbloginresult.set_result(check_passwd());
+										 stlogin.head.cmd_id = LG_login_result;
+										 string tmp;
+										 pbloginresult.SerializeToString(&tmp);
+										 stlogin.head.data_len = tmp.length();
+										 memcpy(stlogin.body.data, tmp.c_str(), tmp.length());
+										 stlogin.head.encode();
+										 sendto(fd, &stlogin, sizeof(stlogin), 0, &add, len);
 									 }
 					}
 						break;
