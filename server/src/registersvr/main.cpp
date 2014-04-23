@@ -16,8 +16,9 @@ int main(int argc, char* argv[])
 	evutil_parse_sockaddr_port("127.0.0.1:5000", &addr, &len);
 
 	event_base* pbase = event_base_new();
+	char* test = "test data";
 	evconnlistener* plistener 
-		= evconnlistener_new_bind(pbase, listener_cb, "test", LEV_OPT_CLOSE_ON_FREE | LEV_OPT_REUSEABLE, 10, &addr, len);
+		= evconnlistener_new_bind(pbase, listener_cb, reinterpret_cast<void*>(test), LEV_OPT_CLOSE_ON_FREE | LEV_OPT_REUSEABLE, 10, &addr, len);
 
 	event_base_dispatch(pbase);
 
