@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
 
 	event_base* pbase = event_base_new();
 	evconnlistener* plistener 
-		= evconnlistener_new_bind(pbase, listener_cb, NULL, LEV_OPT_CLOSE_ON_FREE | LEV_OPT_REUSEABLE, 10, &addr, len);
+		= evconnlistener_new_bind(pbase, listener_cb, "test", LEV_OPT_CLOSE_ON_FREE | LEV_OPT_REUSEABLE, 10, &addr, len);
 
 	event_base_dispatch(pbase);
 
@@ -29,6 +29,6 @@ int main(int argc, char* argv[])
 
 void listener_cb(struct evconnlistener* plistener, evutil_socket_t fd, struct sockaddr * addr, int socklen, void * data)
 {
-	LOG(INFO) << fd;
+	LOG(INFO) << fd << reinterpret_cast<char*>(data);
 }
 
