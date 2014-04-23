@@ -2,12 +2,15 @@
 #include <event2/util.h>
 #include <event2/listener.h>
 #include <sys/socket.h>
-#include <glog/logging.h>
+#include "glog_init.h"
 
 void listener_cb(struct evconnlistener* plistener, int fd, struct sockaddr * addr, int socklen, void * data);
 
 int main(int argc, char* argv[])
 {
+	daemon(1, 1);
+	glog_init(argv[0]);
+
 	sockaddr addr;
 	int len = sizeof(sockaddr);
 	evutil_parse_sockaddr_port("127.0.0.1:5000", &addr, &len);

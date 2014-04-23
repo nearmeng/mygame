@@ -3,20 +3,18 @@
 #include <event2/util.h>
 #include <string.h>
 #include <iostream>
-#include <glog/logging.h>
 #include "include/protocol_head.h"
 #include "proto/loginsvr.pb.h"
 #include "src/libredis/libredis.h"
 #include "src/libbase/md5.h"
-#include <string>
+#include "glog_init.h"
 
+#include <string>
 using namespace std;
 
 
 void call_back(evutil_socket_t, short, void *);
-void glog_init(const char* argv0);
 int check_passwd(const pb_loginsvr::Login& pblogin);
-
 
 int main(int argc, char** argv)
 {
@@ -98,14 +96,7 @@ void call_back(evutil_socket_t fd, short event_id, void * pdata)
 	}
 }
 
-void glog_init(const char* argv0)
-{
-	//FLAGS_log_dir = log_path;//设置log输出目录
-	FLAGS_stderrthreshold = google::ERROR;//高于等于ERROR级别的才会输出到控制台
-	FLAGS_stop_logging_if_full_disk = 1; //磁盘没空间了停止写log
-	FLAGS_logbufsecs = 0;//有log就会写道磁盘上面，不做缓存
-	google::InitGoogleLogging(argv0);
-}
+
 
 int check_passwd(const pb_loginsvr::Login& pblogin)
 {
