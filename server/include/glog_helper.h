@@ -1,7 +1,6 @@
 #ifndef __GLOG_INIT__
 #define __GLOG_INIT__
 
-#include <glog/log_severity.h>
 #include <glog/logging.h>
 
 void glog_init(const char* argv0)
