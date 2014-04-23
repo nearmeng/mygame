@@ -4,11 +4,10 @@
 #include <sys/socket.h>
 #include <glog/logging.h>
 
-void* listener_cb(struct evconnlistener* plistener, int fd, struct sockaddr * addr, int socklen, void * data);
+void listener_cb(struct evconnlistener* plistener, int fd, struct sockaddr * addr, int socklen, void * data);
 
 int main(int argc, char* argv[])
 {
-	evutil_socket_t fd = 0;
 	sockaddr addr;
 	int len = sizeof(sockaddr);
 	evutil_parse_sockaddr_port("127.0.0.1:5000", &addr, &len);
@@ -25,7 +24,7 @@ int main(int argc, char* argv[])
 	return 0;
 }
 
-void* listener_cb(struct evconnlistener* plistener, evutil_socket_t fd, struct sockaddr * addr, int socklen, void * data)
+void listener_cb(struct evconnlistener* plistener, evutil_socket_t fd, struct sockaddr * addr, int socklen, void * data)
 {
 	LOG(INFO) << fd;
 }
