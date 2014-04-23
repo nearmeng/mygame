@@ -2,7 +2,7 @@
 #include <event2/util.h>
 #include <event2/listener.h>
 #include <sys/socket.h>
-#include "include/glog_init.h"
+#include "include/glog_helper.h"
 
 void listener_cb(struct evconnlistener* plistener, int fd, struct sockaddr * addr, int socklen, void * data);
 
