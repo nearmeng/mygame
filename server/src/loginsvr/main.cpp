@@ -7,7 +7,7 @@
 #include "proto/loginsvr.pb.h"
 #include "src/libredis/libredis.h"
 #include "src/libbase/md5.h"
-#include "glog_init.h"
+#include "include/glog_init.h"
 
 #include <string>
 using namespace std;
