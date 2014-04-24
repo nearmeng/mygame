@@ -1,7 +1,7 @@
 #ifndef __RAPIDXML_HELPER__
 #define __RAPIDXML_HELPER__
 
-#include "include/rapidxml-1.13/rapidxml.hpp"
+#include "exlib/rapidxml-1.13/rapidxml.hpp"
 
 typedef rapidxml::file<> RapidFile;
 typedef rapidxml::xml_document<> RapidDoc;
