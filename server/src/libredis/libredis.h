@@ -7,7 +7,7 @@
 #include <vector>
 using namespace std;
 
-#include <hiredis/hiredis.h>
+#include <hiredis.h>
 
 class CRedisReply
 {
