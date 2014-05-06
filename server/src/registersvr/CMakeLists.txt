@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.6)
 set(BIN registersvr)
 aux_source_directory(./ SRC)
 add_executable(${BIN} ${SRC})
