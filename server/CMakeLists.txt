@@ -1,5 +1,5 @@
 
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8)
 set(SRC_ROOT /home/patrick/Documents/mygame/server)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${SRC_ROOT}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${SRC_ROOT}/lib)
