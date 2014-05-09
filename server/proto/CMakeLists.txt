@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 set(BIN protocol)
+execute_process(COMMAND protoc --proto_path=${SRC_ROOT}/proto ${SRC_ROOT}/proto/loginsvr.proto --cpp_out=${SRC_ROOT}/proto)
+execute_process(COMMAND protoc --proto_path=${SRC_ROOT}/proto ${SRC_ROOT}/proto/userinfo.proto --cpp_out=${SRC_ROOT}/proto)
 file(GLOB CUR_HEADERS "*.h")
 aux_source_directory(./ SRC)
 add_library(${BIN} ${SRC} ${CUR_HEADERS})
