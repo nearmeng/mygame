@@ -1,4 +1,4 @@
-#ifndef __SAFE_LOCK_MD5_H__
+ï»¿#ifndef __SAFE_LOCK_MD5_H__
 #define __SAFE_LOCK_MD5_H__
 
 #include <string>
@@ -10,13 +10,13 @@ using namespace std;
 #ifdef __alpha
 typedef unsigned int uint32_t;
 #else
-//md5Ëã·¨µÄÊµÏÖÀïÃæ¶¼ÊÇÕâÃ´¶¨ÒåµÄ
-//Èç´Ë32Î»»úÆ÷¸ú64Î»»úÆ÷À´¼ÓÃÜÖµ»á²»Í¬
-//ÔÚÇ°Ãæ¶¨ÒåÁË__alpha
+//md5ç®—æ³•çš„å®ç°é‡Œé¢éƒ½æ˜¯è¿™ä¹ˆå®šä¹‰çš„
+//å¦‚æ­¤32ä½æœºå™¨è·Ÿ64ä½æœºå™¨æ¥åŠ å¯†å€¼ä¼šä¸åŒ
+//åœ¨å‰é¢å®šä¹‰äº†__alpha
 typedef unsigned long uint32_t;
 #endif
 
-//Ö»ĞèÒª±©Â¶Ò»¸ö½Ó¿Ú¾ÍĞĞÁË£¬ÆäËû¿´²»³öÓĞÊ²Ã´ÓÃ£¬ÉùÃ÷È«²¿·Åµ½cpp
+//åªéœ€è¦æš´éœ²ä¸€ä¸ªæ¥å£å°±è¡Œäº†ï¼Œå…¶ä»–çœ‹ä¸å‡ºæœ‰ä»€ä¹ˆç”¨ï¼Œå£°æ˜å…¨éƒ¨æ”¾åˆ°cpp
 std::string calc_md5_string(unsigned char *input, unsigned int inlen);
 
 #endif /* !MD5_H */

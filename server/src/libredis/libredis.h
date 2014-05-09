@@ -1,4 +1,4 @@
-#ifndef __LIBREDIS__
+﻿#ifndef __LIBREDIS__
 #define __LIBREDIS__
 
 

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+﻿cmake_minimum_required(VERSION 2.8)
 set(BIN registersvr)
 file(GLOB CUR_HEADERS "*.h")
 aux_source_directory(./ SRC)
