@@ -1,5 +1,6 @@
 #include "stdio.h"
 #include "lua.hpp"
+#include "tolua++.h"
 int tolua_tarray_open(lua_State* tolua_S);
 #include "tarray.h"
 int g_Arr[10] = { 0 };
