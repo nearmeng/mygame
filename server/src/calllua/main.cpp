@@ -1,5 +1,7 @@
+extern "C" {
 #include "lualib.h"
 #include "lauxlib.h"
+}
 
 #include "toluacpp/tarray.h"
 
@@ -37,7 +39,7 @@ int main (void)
 	luaopen_base(L);
 	tolua_tarray_open(L);
 
-	lua_dofile(L,"../scripts/tarray.lua");
+	luaL_dofile(L,"../scripts/tarray.lua");
 
 	lua_close(L);
 	return 0;
